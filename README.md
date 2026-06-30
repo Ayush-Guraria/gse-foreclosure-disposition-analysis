@@ -2,7 +2,7 @@
 
 **Predicting whether a foreclosed property will sell at auction (3rd-party sale) or revert to the bank as REO (Real Estate Owned)**
 
-> Prepared for ServiceLink | April 2026 | Solo analytical project
+> April 2026 | Solo analytical project
 
 ---
 
@@ -35,14 +35,14 @@ A foreclosed property that sells at auction is a clean, fast resolution. One tha
 
 I processed roughly **280 GB of raw mortgage data**, built **57 engineered features** by joining it to 30+ external data sources, and trained a LightGBM gradient-boosted model that achieves **ROC-AUC of 0.80** — meaning it correctly identifies which of two cases will sell 80% of the time, compared to 50% for random guessing.
 
-The model produces a probability score for each case at intake. That score gets translated into a decile ranking and a routing action, giving ServiceLink's operations team a clear triage signal before any auction marketing or preparation begins.
+The model produces a probability score for each case at intake. That score gets translated into a decile ranking and a routing action, giving operations teams a clear triage signal before any auction marketing or preparation begins.
 
 ---
 
 ## Who It Is Useful For
 
-**ServiceLink and similar foreclosure services companies**
-ServiceLink manages the foreclosure process for banks — from the legal steps through the auction to post-sale. A triage score at intake lets their operations team differentiate handling by predicted outcome rather than treating every case the same way.
+**Foreclosure services companies and mortgage servicers**
+Foreclosure services companies manage this process end-to-end — legal steps, auction, and post-sale. A triage score at intake lets their operations teams differentiate case handling by predicted outcome rather than treating every case the same way.
 
 **GSE servicers and investors (Fannie Mae / Freddie Mac ecosystem)**
 Anyone managing a portfolio of GSE-backed defaulted loans who wants to understand which properties are likely to self-resolve at auction versus which will need active loss-mitigation work.
@@ -65,7 +65,7 @@ An external investor bids on the property and buys it. The bank recovers most of
 **Outcome B — REO reversion (the expensive one)**
 No investor bids enough. The property reverts back to the bank, which now has to pay property taxes, maintain the building, hire a real estate agent, and wait months to sell it on the open market. All-in cost: roughly **$65,000 per property**.
 
-The challenge is that banks and servicers like ServiceLink do not know ahead of time which outcome will happen. They treat every case more or less the same until the auction result comes in. This project asks: can we predict the outcome early enough to actually change what we do about it?
+The challenge is that banks and servicers do not know ahead of time which outcome will happen. They treat every case more or less the same until the auction result comes in. This project asks: can we predict the outcome early enough to actually change what we do about it?
 
 ---
 
@@ -237,7 +237,7 @@ Auction venue is not a meaningful lever. Market and loan fundamentals are.
 | Mid (10%) | $95.6M |
 | High (15%) | $128.4M |
 
-*Based on $65K REO holding cost, 200K US GSE foreclosures/year, 30% ServiceLink share. Replace with internal numbers.*
+*Based on $65K REO holding cost, 200K US GSE foreclosures/year, 30% servicer market share. Replace with actual numbers.*
 
 ---
 
@@ -394,7 +394,7 @@ The discount-to-BPO feature — the third strongest driver — uses FHFA state H
 GSE data publishes only 3-digit ZIP prefixes. All neighbourhood features are averaged across the ZIP3 area, which can span very different neighbourhoods in dense metros.
 
 **Channel is inferred, not observed**
-Judicial vs non-judicial is derived from state law, not from actual auction records. A rigorous online vs offline test requires ServiceLink's internal venue data.
+Judicial vs non-judicial is derived from state law, not from actual auction records. A rigorous online vs offline test requires the servicer's internal venue data.
 
 **Macro regime sensitivity**
 AUC drops from 0.80 to 0.74 on out-of-time 2023-2024 data. Quarterly retraining is necessary as macro conditions evolve.
@@ -406,7 +406,7 @@ The model was trained on Fannie Mae and Freddie Mac conforming loans. It should 
 
 ## Next Steps
 
-- Integrate ServiceLink's internal BPO records — highest-leverage data improvement, estimated +0.02–0.04 AUC
+- Integrate real BPO records from the servicer — highest-leverage data improvement, estimated +0.02–0.04 AUC
 - Test online vs offline rigorously using internal venue records
 - Productionise scoring pipeline (6–11 weeks engineering effort)
 - Set up quarterly retraining cadence (3–5 days per cycle)
